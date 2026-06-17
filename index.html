@@ -146,12 +146,17 @@
             }
             if (plan.type === "discount") {
                 const percent = (plan.discount * 100).toFixed(1);
-                const start = plan.hours.start;
-                const end = plan.hours.end;
 
-                let hoursText = (start < end)
-                    ? `בין ${start}:00 ל-${end}:00 (יום)`
-                    : `בין ${start}:00 ל-${end}:00 (לילה)`;
+                let hoursText = "";
+                if (!plan.hours || (plan.hours.start === 0 && plan.hours.end === 24)) {
+                    hoursText = "בכל שעות היממה";
+                } else {
+                    const start = plan.hours.start;
+                    const end = plan.hours.end;
+                    hoursText = (start < end)
+                        ? `בין ${start}:00 ל-${end}:00 (יום)`
+                        : `בין ${start}:00 ל-${end}:00 (לילה)`;
+                }
 
                 let daysText = "";
                 if (!plan.days || plan.days.length === 7) {
